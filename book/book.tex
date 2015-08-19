@@ -8099,119 +8099,119 @@ Solution: \url{http://thinkpython.com/code/ackermann_memo.py}.
 \end{exercise}
 
 
-\section{Global variables}
-\index{global variable}
-\index{variable!global}
+% \section{Global variables}
+% \index{global variable}
+% \index{variable!global}
 
-In the previous example, {\tt known} is created outside the function,
-so it belongs to the special frame called \verb"__main__".
-Variables in \verb"__main__" are sometimes called {\bf global}
-because they can be accessed from any function.  Unlike local
-variables, which disappear when their function ends, global variables
-persist from one function call to the next.
-\index{flag}
+% In the previous example, {\tt known} is created outside the function,
+% so it belongs to the special frame called \verb"__main__".
+% Variables in \verb"__main__" are sometimes called {\bf global}
+% because they can be accessed from any function.  Unlike local
+% variables, which disappear when their function ends, global variables
+% persist from one function call to the next.
+% \index{flag}
 
-It is common to use global variables for {\bf flags}; that is, 
-boolean variables that indicate (``flag'') whether a condition
-is true.  For example, some programs use
-a flag named {\tt verbose} to control the level of detail in the
-output:
+% It is common to use global variables for {\bf flags}; that is, 
+% boolean variables that indicate (``flag'') whether a condition
+% is true.  For example, some programs use
+% a flag named {\tt verbose} to control the level of detail in the
+% output:
 
-\begin{verbatim}
-verbose = True
+% \begin{verbatim}
+% verbose = True
 
-def example1():
-    if verbose:
-        print 'Running example1'
-\end{verbatim}
-%
-If you try to reassign a global variable, you might be surprised.
-The following example is supposed to keep track of whether the
-function has been called:
-\index{multiple assignment}
-\index{assignment!multiple}
+% def example1():
+%     if verbose:
+%         print 'Running example1'
+% \end{verbatim}
+% %
+% If you try to reassign a global variable, you might be surprised.
+% The following example is supposed to keep track of whether the
+% function has been called:
+% \index{multiple assignment}
+% \index{assignment!multiple}
 
-\begin{verbatim}
-been_called = False
+% \begin{verbatim}
+% been_called = False
 
-def example2():
-    been_called = True         # WRONG
-\end{verbatim}
-%
-But if you run it you will see that the value of \verb"been_called"
-doesn't change.  The problem is that {\tt example2} creates a new local
-variable named \verb"been_called".  The local variable goes away when
-the function ends, and has no effect on the global variable.
-\index{global statement}
-\index{statement!global}
-\index{declaration}
+% def example2():
+%     been_called = True         # WRONG
+% \end{verbatim}
+% %
+% But if you run it you will see that the value of \verb"been_called"
+% doesn't change.  The problem is that {\tt example2} creates a new local
+% variable named \verb"been_called".  The local variable goes away when
+% the function ends, and has no effect on the global variable.
+% \index{global statement}
+% \index{statement!global}
+% \index{declaration}
 
-To reassign a global variable inside a function you have to
-{\bf declare} the global variable before you use it:
+% To reassign a global variable inside a function you have to
+% {\bf declare} the global variable before you use it:
 
-\begin{verbatim}
-been_called = False
+% \begin{verbatim}
+% been_called = False
 
-def example2():
-    global been_called 
-    been_called = True
-\end{verbatim}
-%
-The {\tt global} statement tells the interpreter
-something like, ``In this function, when I say \verb"been_called", I
-mean the global variable; don't create a local one.''
-\index{update!global variable}
-\index{global variable!update}
+% def example2():
+%     global been_called 
+%     been_called = True
+% \end{verbatim}
+% %
+% The {\tt global} statement tells the interpreter
+% something like, ``In this function, when I say \verb"been_called", I
+% mean the global variable; don't create a local one.''
+% \index{update!global variable}
+% \index{global variable!update}
 
-Here's an example that tries to update a global variable:
+% Here's an example that tries to update a global variable:
 
-\begin{verbatim}
-count = 0
+% \begin{verbatim}
+% count = 0
 
-def example3():
-    count = count + 1          # WRONG
-\end{verbatim}
-%
-If you run it you get:
-\index{UnboundLocalError}
-\index{exception!UnboundLocalError}
+% def example3():
+%     count = count + 1          # WRONG
+% \end{verbatim}
+% %
+% If you run it you get:
+% \index{UnboundLocalError}
+% \index{exception!UnboundLocalError}
 
-\begin{verbatim}
-UnboundLocalError: local variable 'count' referenced before assignment
-\end{verbatim}
-%
-Python assumes that {\tt count} is local, which means
-that you are reading it before writing it.  The solution, again,
-is to declare {\tt count} global.
-\index{counter}
+% \begin{verbatim}
+% UnboundLocalError: local variable 'count' referenced before assignment
+% \end{verbatim}
+% %
+% Python assumes that {\tt count} is local, which means
+% that you are reading it before writing it.  The solution, again,
+% is to declare {\tt count} global.
+% \index{counter}
 
-\begin{verbatim}
-def example3():
-    global count
-    count += 1
-\end{verbatim}
-%
-If the global value is mutable, you can modify it without
-declaring it:
-\index{mutability}
+% \begin{verbatim}
+% def example3():
+%     global count
+%     count += 1
+% \end{verbatim}
+% %
+% If the global value is mutable, you can modify it without
+% declaring it:
+% \index{mutability}
 
-\begin{verbatim}
-known = {0:0, 1:1}
+% \begin{verbatim}
+% known = {0:0, 1:1}
 
-def example4():
-    known[2] = 1
-\end{verbatim}
-%
-So you can add, remove and replace elements of a global list or
-dictionary, but if you want to reassign the variable, you
-have to declare it:
+% def example4():
+%     known[2] = 1
+% \end{verbatim}
+% %
+% So you can add, remove and replace elements of a global list or
+% dictionary, but if you want to reassign the variable, you
+% have to declare it:
 
-\begin{verbatim}
-def example5():
-    global known
-    known = dict()
-\end{verbatim}
-%
+% \begin{verbatim}
+% def example5():
+%     global known
+%     known = dict()
+% \end{verbatim}
+% %
 
 \section{Long integers}
 \index{long integer}
