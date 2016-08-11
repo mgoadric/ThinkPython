@@ -2852,11 +2852,11 @@ Here is a version of {\tt
 countdown} that uses a {\tt while} statement:
 
 \begin{verbatim}
-def countdown(n):
-    while n > 0:
-        print(n)
-        n = n-1
-    print('Blastoff!')
+n = int(input("Type an integer: "))
+while n > 0:
+    print(n)
+    n = n-1
+print('Blastoff!')
 \end{verbatim}
 %
 You can almost read the {\tt while} statement as if it were English.
@@ -2901,13 +2901,13 @@ loop, so eventually we have to get to 0.  In other
 cases, it is not so easy to tell:
 
 \begin{verbatim}
-def sequence(n):
-    while n != 1:
-        print(n)
-        if n%2 == 0:        # n is even
-            n = n/2
-        else:               # n is odd
-            n = n*3+1
+n = int(input("Type an integer: "))
+while n != 1:
+    print(n)
+    if n%2 == 0:        # n is even
+        n = n/2
+    else:               # n is odd
+        n = n*3+1
 \end{verbatim}
 %
 The condition for this loop is {\tt n != 1}, so the loop will continue
@@ -3548,50 +3548,50 @@ the original string.
 \index{concatenation}
 
 
-\section{Searching}
-\label{find}
-
-What does the following function do?
-\index{find function}
-\index{function!find}
-
-\begin{verbatim}
-def find(word, letter):
-    index = 0
-    while index < len(word):
-        if word[index] == letter:
-            return index
-        index = index + 1
-    return -1
-\end{verbatim}
+%\section{Searching}
+%\label{find}
 %
-In a sense, {\tt find} is the opposite of the {\tt []} operator.
-Instead of taking an index and extracting the corresponding character,
-it takes a character and finds the index where that character
-appears.  If the character is not found, the function returns {\tt
--1}.
-
-This is the first example we have seen of a {\tt return} statement
-inside a loop.  If {\tt word[index] == letter}, the function breaks
-out of the loop and returns immediately.
-
-If the character doesn't appear in the string, the program
-exits the loop normally and  returns {\tt -1}.
-
-This pattern of computation---traversing a sequence and returning
-when we find what we are looking for---is called a {\bf search}.
-\index{traversal}
-\index{search pattern}
-\index{pattern!search}
-
-\begin{exercise}
-
-Modify {\tt find} so that it has a
-third parameter, the index in {\tt word} where it should start
-looking.
-
-\end{exercise}
-
+%What does the following function do?
+%\index{find function}
+%\index{function!find}
+%
+%\begin{verbatim}
+%def find(word, letter):
+%    index = 0
+%    while index < len(word):
+%        if word[index] == letter:
+%            return index
+%        index = index + 1
+%    return -1
+%\end{verbatim}
+%%
+%In a sense, {\tt find} is the opposite of the {\tt []} operator.
+%Instead of taking an index and extracting the corresponding character,
+%it takes a character and finds the index where that character
+%appears.  If the character is not found, the function returns {\tt
+%-1}.
+%
+%This is the first example we have seen of a {\tt return} statement
+%inside a loop.  If {\tt word[index] == letter}, the function breaks
+%out of the loop and returns immediately.
+%
+%If the character doesn't appear in the string, the program
+%exits the loop normally and  returns {\tt -1}.
+%
+%This pattern of computation---traversing a sequence and returning
+%when we find what we are looking for---is called a {\bf search}.
+%\index{traversal}
+%\index{search pattern}
+%\index{pattern!search}
+%
+%\begin{exercise}
+%
+%Modify {\tt find} so that it has a
+%third parameter, the index in {\tt word} where it should start
+%looking.
+%
+%\end{exercise}
+%
 
 
 
