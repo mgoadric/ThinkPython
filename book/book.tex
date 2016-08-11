@@ -769,7 +769,7 @@ an end.  As we go along, that end will become clearer.
 
 The programming language you will learn is Python. Python is
 an example of a {\bf high-level language}; other high-level languages
-you might have heard of are C, C++, Perl, and Java.
+you might have heard of are C and C++, Java, Ruby and Javascript.
 
 There are
 also {\bf low-level languages}, sometimes referred to as ``machine
@@ -1166,7 +1166,7 @@ is called ``Hello, World!'' because all it does is display the
 words ``Hello, World!''.  In Python, it looks like this:
 
 \begin{verbatim}
-print 'Hello, World!'
+print('Hello, World!')
 \end{verbatim}
 %
 This is an example of a {\bf print statement}, which
@@ -1182,20 +1182,10 @@ of the text to be displayed; they don't appear in the result.
 \index{quotation mark}
 \index{print statement}
 \index{statement!print}
-
-In Python 3, the syntax for printing is slightly different:
-
-\begin{verbatim}
-print('Hello, World!')
-\end{verbatim}
 %
 The parentheses indicate that {\tt print} is a function.  We'll get
 to functions in Chapter~\ref{funcchap}.
 \index{function} \index{print function} \index{Python 3}
-
-For the rest of this book, I'll use the print statement.  If you
-are using Python 3, you will have to translate.  But other than
-that, there are very few differences we have to worry about.
 
 
 \section{Debugging}
@@ -1439,9 +1429,9 @@ If you are not sure what type a value has, the interpreter can tell you.
 
 \begin{verbatim}
 >>> type('Hello, World!')
-<type 'str'>
+<class 'str'>
 >>> type(17)
-<type 'int'>
+<class 'int'>
 \end{verbatim}
 %
 Not surprisingly, strings belong to the type {\tt str} and
@@ -1459,7 +1449,7 @@ format called {\bf floating-point}.
 
 \begin{verbatim}
 >>> type(3.2)
-<type 'float'>
+<class 'float'>
 \end{verbatim}
 %
 What about values like \verb"'17'" and \verb"'3.2'"?
@@ -1469,9 +1459,9 @@ strings.
 
 \begin{verbatim}
 >>> type('17')
-<type 'str'>
+<class 'str'>
 >>> type('3.2')
-<type 'str'>
+<class 'str'>
 \end{verbatim}
 %
 They're strings.
@@ -1539,11 +1529,11 @@ The type of a variable is the type of the value it refers to.
 
 \begin{verbatim}
 >>> type(message)
-<type 'str'>
+<class 'str'>
 >>> type(n)
-<type 'int'>
+<class 'int'>
 >>> type(pi)
-<type 'float'>
+<class 'float'>
 \end{verbatim}
 
 
@@ -1585,19 +1575,18 @@ interpreter uses keywords to recognize the structure of the program,
 and they cannot be used as variable names.
 \index{keyword}
 
-Python 2 has 31 keywords:
+Python 2 has 30 keywords:
 
 \begin{verbatim}
 and       del       from      not       while    
 as        elif      global    or        with     
 assert    else      if        pass      yield    
-break     except    import    print              
+break     except    import  nonlocal               
 class     exec      in        raise              
 continue  finally   is        return             
 def       for       lambda    try
 \end{verbatim}
 %
-In Python 3, {\tt exec} and {\tt print} are no longer keywords, but {\tt nonlocal} is.
 
 You might want to keep this list handy.  If the interpreter complains
 about one of your variable names and you don't know why, see if it
@@ -1629,40 +1618,39 @@ them at \url{http://wiki.python.org/moin/BitwiseOperators}.
 \index{bitwise operator}
 \index{operator!bitwise}
 
-In Python 2, the division operator might not do what you expect:
+The result of division is a {\tt float}.  
+\index{floating-point division}
+\index{division!floating-point}
+
+\begin{verbatim}
+>>> minute / 60
+0.98333333333333328
+\end{verbatim}
+
+If either of the operands is a floating-point number, Python performs
+floating-point division, and the result is a {\tt float}:
+
+\section{Modulus operator}
+\index{modulus operator}
+\index{operator!modulus}
+
+Python includes another division operator,
+{\tt //}.
+\index{Python 3}
+\index{floor division}
+\index{division!floor}
 
 \begin{verbatim}
 >>> minute = 59
->>> minute/60
+>>> minute // 60
 0
 \end{verbatim}
 %
 The value of {\tt minute} is 59, and in conventional arithmetic 59
 divided by 60 is 0.98333, not 0.  The reason for the discrepancy is
-that Python is performing {\bf floor division}.
-When both of the operands are integers, the result is also an
-integer; floor division chops off the fraction
+that Python is now performing {\bf floor division}.
+Floor division chops off the fraction
 part, so in this example it rounds down to zero.
-
-In Python 3, the result of this division is a {\tt float}.  The new operator
-{\tt //} performs floor division.
-\index{Python 3}
-\index{floor division}
-\index{floating-point division}
-\index{division!floor}
-\index{division!floating-point}
-
-If either of the operands is a floating-point number, Python performs
-floating-point division, and the result is a {\tt float}:
-
-\begin{verbatim}
->>> minute/60.0
-0.98333333333333328
-\end{verbatim}
-
-\section{Modulus operator}
-\index{modulus operator}
-\index{operator!modulus}
 
 The {\bf modulus operator} works on integers and yields the remainder
 when the first operand is divided by the second.  In Python, the
@@ -1670,11 +1658,11 @@ modulus operator is a percent sign (\verb"%").  The syntax is the same
 as for other operators:
 
 \begin{verbatim}
->>> quotient = 7 / 3
->>> print quotient
+>>> quotient = 7 // 3
+>>> print(quotient)
 2
 >>> remainder = 7 % 3
->>> print remainder
+>>> print(remainder)
 1
 \end{verbatim}
 %
@@ -1744,7 +1732,7 @@ display the value unless you tell it to:
 
 \begin{verbatim}
 miles = 26.2
-print miles * 1.61
+print(miles * 1.61)
 \end{verbatim}
 
 This behavior can be confusing at first.
@@ -1756,9 +1744,9 @@ as the statements execute.
 For example, the script
 
 \begin{verbatim}
-print 1
+print(1)
 x = 2
-print x
+print(x)
 \end{verbatim}
 %
 produces the output
@@ -2085,7 +2073,7 @@ We have already seen one example of a {\bf function call}:
 
 \begin{verbatim}
 >>> type(32)
-<type 'int'>
+<class 'int'>
 \end{verbatim}
 %
 The name of the function is {\tt type}.  The expression in parentheses
@@ -2166,9 +2154,8 @@ The programs we have written so far are a bit rude in the sense that
 they accept no input from the user.  They just do the same thing every
 time.
 
-Python 2 provides a built-in function called \verb"raw_input" that gets
-input from the keyboard.  In Python 3, it is called
-  {\tt input}.  When this function is called, the program stops and
+Python provides a built-in function called \verb"input" that gets
+input from the keyboard. When this function is called, the program stops and
 waits for the user to type something.  When the user presses {\sf
   Return} or {\sf Enter}, the program resumes and \verb"raw_input"
 returns what the user typed as a string.
@@ -2177,9 +2164,9 @@ returns what the user typed as a string.
 \index{function!raw\_input}
 
 \begin{verbatim}
->>> text = raw_input()
+>>> text = input()
 What are you waiting for?
->>> print text
+>>> print(text)
 What are you waiting for?
 \end{verbatim}
 %
@@ -2189,10 +2176,10 @@ prompt as an argument:
 \index{prompt}
 
 \begin{verbatim}
->>> name = raw_input('What...is your name?\n')
+>>> name = input('What...is your name?\n')
 What...is your name?
 Arthur, King of the Britons!
->>> print name
+>>> print(name)
 Arthur, King of the Britons!
 \end{verbatim}
 %
@@ -2206,7 +2193,7 @@ the return value to {\tt int}:
 
 \begin{verbatim}
 >>> prompt = 'What...is the airspeed velocity of an unladen swallow?\n'
->>> speed = raw_input(prompt)
+>>> speed = input(prompt)
 What...is the airspeed velocity of an unladen swallow?
 17
 >>> int(speed)
@@ -2217,7 +2204,7 @@ But if the user types something other than a string of digits,
 you get an error:
 
 \begin{verbatim}
->>> speed = raw_input(prompt)
+>>> speed = input(prompt)
 What...is the airspeed velocity of an unladen swallow?
 What do you mean, an African or a European swallow?
 >>> int(speed)
@@ -2250,7 +2237,7 @@ This statement creates a {\bf module object} named math.  If
 you print the module object, you get some information about it:
 
 \begin{verbatim}
->>> print math
+>>> print(math)
 <module 'math' (built-in)>
 \end{verbatim}
 %
@@ -2433,9 +2420,9 @@ values that belong to the type {\tt bool}; they are not strings:
 
 \begin{verbatim}
 >>> type(True)
-<type 'bool'>
+<class 'bool'>
 >>> type(False)
-<type 'bool'>
+<class 'bool'>
 \end{verbatim}
 %
 The {\tt ==} operator is one of the {\bf relational operators}; the
@@ -2511,7 +2498,7 @@ simplest form is the {\tt if} statement:
 
 \begin{verbatim}
 if x > 0:
-    print 'x is positive'
+    print('x is positive')
 \end{verbatim}
 %
 The boolean expression after {\tt if} is
@@ -2551,9 +2538,9 @@ which one gets executed.  The syntax looks like this:
 
 \begin{verbatim}
 if x%2 == 0:
-    print 'x is even'
+    print('x is even')
 else:
-    print 'x is odd'
+    print('x is odd')
 \end{verbatim}
 %
 If the remainder when {\tt x} is divided by 2 is 0, then we
@@ -2576,11 +2563,11 @@ chained conditional}:
 
 \begin{verbatim}
 if x < y:
-    print 'x is less than y'
+    print('x is less than y')
 elif x > y:
-    print 'x is greater than y'
+    print('x is greater than y')
 else:
-    print 'x and y are equal'
+    print('x and y are equal')
 \end{verbatim}
 %
 {\tt elif} is an abbreviation of ``else if.''  Again, exactly one
@@ -2616,12 +2603,12 @@ written the trichotomy example like this:
 
 \begin{verbatim}
 if x == y:
-    print 'x and y are equal'
+    print('x and y are equal')
 else:
     if x < y:
-        print 'x is less than y'
+        print('x is less than y')
     else:
-        print 'x is greater than y'
+        print('x is greater than y')
 \end{verbatim}
 %
 The outer conditional contains two branches.  The
@@ -2641,7 +2628,7 @@ single conditional:
 \begin{verbatim}
 if 0 < x:
     if x < 10:
-        print 'x is a positive single-digit number.'
+        print('x is a positive single-digit number.')
 \end{verbatim}
 %
 The {\tt print} statement is executed only if we make it past both
@@ -2649,7 +2636,7 @@ conditionals, so we can get the same effect with the {\tt and} operator:
 
 \begin{verbatim}
 if 0 < x and x < 10:
-    print 'x is a positive single-digit number.'
+    print('x is a positive single-digit number.')
 \end{verbatim}
 
 
@@ -2695,45 +2682,7 @@ sometimes on a previous line.
 
 The same is true of runtime errors.  
 
-Suppose you are trying
-to compute a signal-to-noise ratio in decibels.  The formula
-is $SNR_{db} = 10 \log_{10} (P_{signal} / P_{noise})$.  In Python,
-you might write something like this:
 
-\begin{verbatim}
-import math
-signal_power = 9
-noise_power = 10
-ratio = signal_power / noise_power
-decibels = 10 * math.log10(ratio)
-print decibels
-\end{verbatim}
-%
-But when you run it in Python 2, you get an error message.
-\index{exception!OverflowError}
-\index{OverflowError}
-
-\begin{verbatim}
-Traceback (most recent call last):
-  File "snr.py", line 5, in ?
-    decibels = 10 * math.log10(ratio)
-ValueError: math domain error
-\end{verbatim}
-%
-The error message indicates line 5, but there is nothing
-wrong with that line.  To find the real error, it might be
-useful to print the value of {\tt ratio}, which turns out to
-be 0.  The problem is in line 4, because dividing two integers
-does floor division.  The solution is to represent signal power
-and noise power with floating-point values.
-\index{floor division}
-\index{division!floor}
-
-In general, error messages tell you where the problem was discovered, 
-but that is often not where it was caused.
-
-In Python 3, this example does not cause an error; the division operator
-performs floating-point division even with integer operands.
 
 \section{Glossary}
 
@@ -2797,8 +2746,8 @@ Here is an example:
 
 \begin{verbatim}
 def print_lyrics():
-    print "I'm a lumberjack, and I'm okay."
-    print "I sleep all night and I work all day."
+    print("I'm a lumberjack, and I'm okay.")
+    print("I sleep all night and I work all day.")
 \end{verbatim}
 %
 {\tt def} is a keyword that indicates that this is a function
@@ -2838,8 +2787,8 @@ isn't complete:
 
 \begin{verbatim}
 >>> def print_lyrics():
-...     print "I'm a lumberjack, and I'm okay."
-...     print "I sleep all night and I work all day."
+...     print("I'm a lumberjack, and I'm okay.")
+...     print("I sleep all night and I work all day.")
 ...
 \end{verbatim}
 %
@@ -2852,7 +2801,7 @@ Defining a function creates a variable with the same name.
 >>> print print_lyrics
 <function print_lyrics at 0xb7e99e9c>
 >>> type(print_lyrics)
-<type 'function'>
+<class 'function'>
 \end{verbatim}
 %
 The value of \verb"print_lyrics" is a {\bf function object}, which
@@ -2900,8 +2849,8 @@ whole program looks like this:
 
 \begin{verbatim}
 def print_lyrics():
-    print "I'm a lumberjack, and I'm okay."
-    print "I sleep all night and I work all day."
+    print("I'm a lumberjack, and I'm okay.")
+    print("I sleep all night and I work all day.")
 
 def repeat_lyrics():
     print_lyrics()
@@ -3213,7 +3162,7 @@ assign the result to a variable, you get a special value called
 >>> result = print_twice('Bing')
 Bing
 Bing
->>> print result
+>>> print(result)
 None
 \end{verbatim}
 %
@@ -3221,8 +3170,8 @@ The value {\tt None} is not the same as the string \verb"'None'".
 It is a special value that has its own type:
 
 \begin{verbatim}
->>> print type(None)
-<type 'NoneType'>
+>>> print(type(None))
+<class 'NoneType'>
 \end{verbatim}
 %
 The functions we have written so far are all void.  We will start
@@ -3259,9 +3208,9 @@ Python provides two ways to import modules; we have already seen one:
 
 \begin{verbatim}
 >>> import math
->>> print math
+>>> print(math)
 <module 'math' (built-in)>
->>> print math.pi
+>>> print(math.pi)
 3.14159265359
 \end{verbatim}
 %
@@ -3272,7 +3221,7 @@ like {\tt sin} and {\tt exp}.
 But if you try to access {\tt pi} directly, you get an error.
 
 \begin{verbatim}
->>> print pi
+>>> print(pi)
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 NameError: name 'pi' is not defined
@@ -3288,7 +3237,7 @@ Now you can access {\tt pi} directly, without dot notation.
 \index{dot notation}
 
 \begin{verbatim}
->>> print pi
+>>> print(pi)
 3.14159265359
 \end{verbatim}
 %
@@ -3439,7 +3388,7 @@ named \verb"print_spam" twice.
 
 \begin{verbatim}
 def print_spam():
-    print 'spam'
+    print('spam')
 
 do_twice(print_spam)
 \end{verbatim}
@@ -3502,18 +3451,18 @@ Hint: to print more than one value on a line, you can print
 a comma-separated sequence:
 
 \begin{verbatim}
-print '+', '-'
+print('+', '-')
 \end{verbatim}
 %
-If the sequence ends with a comma, Python leaves the line unfinished,
+You can add an extra parameter so that Python leaves the line unfinished,
 so the value printed next appears on the same line.
 
 \begin{verbatim}
-print '+', 
-print '-'
+print('+', end="")
+print('-')
 \end{verbatim}
 %
-The output of these statements is \verb"'+ -'".
+The output of these statements is \verb"'+-'".
 
 A {\tt print} statement all by itself ends the current line and
 goes to the next line.
@@ -3622,7 +3571,7 @@ the absolute value of 0.
 \index{special value!None}
 
 \begin{verbatim}
->>> print absolute_value(0)
+>>> print(absolute_value(0))
 None
 \end{verbatim}
 %
@@ -3706,8 +3655,8 @@ temporary variables and prints them.
 def distance(x1, y1, x2, y2):
     dx = x2 - x1
     dy = y2 - y1
-    print 'dx is', dx
-    print 'dy is', dy
+    print('dx is', dx)
+    print('dy is', dy)
     return 0.0
 \end{verbatim}
 %
@@ -3723,7 +3672,7 @@ def distance(x1, y1, x2, y2):
     dx = x2 - x1
     dy = y2 - y1
     dsquared = dx**2 + dy**2
-    print 'dsquared is: ', dsquared
+    print('dsquared is: ', dsquared)
     return 0.0
 \end{verbatim}
 %
@@ -3877,14 +3826,14 @@ Boolean functions are often used in conditional statements:
 
 \begin{verbatim}
 if is_divisible(x, y):
-    print 'x is divisible by y'
+    print('x is divisible by y')
 \end{verbatim}
 %
 It might be tempting to write something like:
 
 \begin{verbatim}
 if is_divisible(x, y) == True:
-    print 'x is divisible by y'
+    print('x is divisible by y')
 \end{verbatim}
 %
 But the extra comparison is unnecessary.
@@ -3945,7 +3894,7 @@ Solution: \url{http://thinkpython.com/code/stack_diagram.py}.
 \begin{verbatim}
 def b(z):
     prod = a(z, z)
-    print z, prod
+    print(z, prod)
     return prod
 
 def a(x, y):
@@ -3959,7 +3908,7 @@ def c(x, y, z):
 
 x = 1
 y = x + 1
-print c(x, y+3, x+y)
+print(c(x, y+3, x+y))
 \end{verbatim}
 
 \end{exercise}
@@ -4043,18 +3992,14 @@ value (and stop referring to the old value).
 
 \begin{verbatim}
 bruce = 5
-print bruce,
+print(bruce)
 bruce = 7
-print bruce
+print(bruce)
 \end{verbatim}
 %
-The output of this program is {\tt 5 7}, because the first time
+The output of this program is {\tt 5} then {\tt 7}, because the first time
 {\tt bruce} is printed, its value is 5, and the second time, its
-value is 7.  The
-comma at the end of the first {\tt print} statement suppresses
-the newline, which is why both outputs
-appear on the same line.
-\index{newline}
+value is 7.  
 
 Figure~\ref{fig.assign2} shows what {\bf multiple assignment} looks
 like in a state diagram. \index{state diagram} \index{diagram!state}
@@ -4158,9 +4103,9 @@ countdown} that uses a {\tt while} statement:
 \begin{verbatim}
 def countdown(n):
     while n > 0:
-        print n
+        print(n)
         n = n-1
-    print 'Blastoff!'
+    print('Blastoff!')
 \end{verbatim}
 %
 You can almost read the {\tt while} statement as if it were English.
@@ -4207,7 +4152,7 @@ cases, it is not so easy to tell:
 \begin{verbatim}
 def sequence(n):
     while n != 1:
-        print n,
+        print(n)
         if n%2 == 0:        # n is even
             n = n/2
         else:               # n is odd
@@ -4256,13 +4201,13 @@ type {\tt done}.  You could write:
 \begin{verbatim}
 finished = False
 while not finished:
-    line = raw_input('> ')
+    line = input('> ')
     if line == 'done':
         finished = True
     else:
-        print line
+        print(line)
 
-print 'Done!'
+print('Done!')
 \end{verbatim}
 %
 The loop condition is based on the sentinel {\tt finished}, which begins
@@ -4309,7 +4254,7 @@ For example, if $a$ is 4 and $x$ is 3:
 >>> a = 4.0
 >>> x = 3.0
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.16666666667
 \end{verbatim}
 %
@@ -4319,7 +4264,7 @@ repeat the process with the new estimate, it gets even closer:
 \begin{verbatim}
 >>> x = y
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.00641025641
 \end{verbatim}
 %
@@ -4329,11 +4274,11 @@ After a few more updates, the estimate is almost exact:
 \begin{verbatim}
 >>> x = y
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.00001024003
 >>> x = y
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.00000000003
 \end{verbatim}
 %
@@ -4345,11 +4290,11 @@ stops changing:
 \begin{verbatim}
 >>> x = y
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.0
 >>> x = y
 >>> y = (x + a/x) / 2
->>> print y
+>>> print(y)
 2.0
 \end{verbatim}
 %
@@ -4360,7 +4305,7 @@ stops changing:
 \begin{verbatim}
 finished = False
 while not finished:
-    print x
+    print(x)
     y = (x + a/x) / 2
     if y == x:
         finished = True
@@ -4559,7 +4504,7 @@ it using the Python interpreter.  For example:
 >>> eval('math.sqrt(5)')
 2.2360679774997898
 >>> eval('type(math.pi)')
-<type 'float'>
+<class 'float'>
 \end{verbatim}
 %
 Write a function called \verb"eval_loop" that iteratively
@@ -4625,7 +4570,7 @@ want (hence the name).
 But you might not get what you expect:
 
 \begin{verbatim}
->>> print letter
+>>> print(letter)
 a
 \end{verbatim}
 %
@@ -4635,7 +4580,7 @@ beginning of the string, and the offset of the first letter is zero.
 
 \begin{verbatim}
 >>> letter = fruit[0]
->>> print letter
+>>> print(letter)
 b
 \end{verbatim}
 %
@@ -4689,7 +4634,7 @@ to subtract 1 from {\tt length}:
 
 \begin{verbatim}
 >>> last = fruit[length-1]
->>> print last
+>>> print(last)
 a
 \end{verbatim}
 %
@@ -4719,7 +4664,7 @@ linking them end-to-end.  For example:
 \begin{verbatim}
 first = 'throat'
 second = 'warbler'
-print first + second
+print(first + second)
 \end{verbatim}
 %
 The output of this program is {\tt throatwarbler}.
@@ -4753,9 +4698,9 @@ similar to selecting a character:
 
 \begin{verbatim}
 >>> s = 'Monty Python'
->>> print s[0:5]
+>>> print(s[0:5])
 Monty
->>> print s[6:12]
+>>> print(s[6:12])
 Python
 \end{verbatim}
 %
@@ -4842,7 +4787,7 @@ that is a variation on the original:
 \begin{verbatim}
 >>> greeting = 'Hello, world!'
 >>> new_greeting = 'J' + greeting[1:]
->>> print new_greeting
+>>> print(new_greeting)
 Jello, world!
 \end{verbatim}
 %
@@ -4915,7 +4860,7 @@ the method syntax {\tt word.upper()}.
 \begin{verbatim}
 >>> word = 'banana'
 >>> new_word = word.upper()
->>> print new_word
+>>> print(new_word)
 BANANA
 \end{verbatim}
 %
@@ -4935,7 +4880,7 @@ is remarkably similar to the function we wrote:
 \begin{verbatim}
 >>> word = 'banana'
 >>> index = word.find('a')
->>> print index
+>>> print(index)
 1
 \end{verbatim}
 %
@@ -5011,7 +4956,7 @@ The relational operators work on strings.  To see if two strings are equal:
 
 \begin{verbatim}
 if word == 'banana':
-    print 'All right, bananas.'
+    print('All right, bananas.')
 \end{verbatim}
 %
 Other relational operations are useful for putting words in alphabetical
@@ -5019,11 +4964,11 @@ order:
 
 \begin{verbatim}
 if word < 'banana':
-    print 'Your word,' + word + ', comes before banana.'
+    print('Your word,' + word + ', comes before banana.')
 elif word > 'banana':
-    print 'Your word,' + word + ', comes after banana.'
+    print('Your word,' + word + ', comes after banana.')
 else:
-    print 'All right, bananas.'
+    print('All right, bananas.')
 \end{verbatim}
 %
 Python does not handle uppercase and lowercase letters the same way
@@ -5296,7 +5241,7 @@ As you might expect, you can assign list values to variables:
 >>> cheeses = ['Cheddar', 'Edam', 'Gouda']
 >>> numbers = [17, 123]
 >>> empty = []
->>> print cheeses, numbers, empty
+>>> print(cheeses, numbers, empty)
 ['Cheddar', 'Edam', 'Gouda'] [17, 123] []
 \end{verbatim}
 %
@@ -5317,7 +5262,7 @@ expression inside the brackets specifies the index.  Remember that the
 indices start at 0:
 
 \begin{verbatim}
->>> print cheeses[0]
+>>> print(cheeses[0])
 Cheddar
 \end{verbatim}
 %
@@ -5329,7 +5274,7 @@ list that will be assigned.
 \begin{verbatim}
 >>> numbers = [17, 123]
 >>> numbers[1] = 5
->>> print numbers
+>>> print(numbers)
 [17, 5]
 \end{verbatim}
 %
@@ -5394,7 +5339,7 @@ The {\tt +} operator concatenates lists:
 >>> a = [1, 2, 3]
 >>> b = [4, 5, 6]
 >>> c = a + b
->>> print c
+>>> print(c)
 [1, 2, 3, 4, 5, 6]
 \end{verbatim}
 %
@@ -5457,7 +5402,7 @@ can update multiple elements:
 \begin{verbatim}
 >>> t = ['a', 'b', 'c', 'd', 'e', 'f']
 >>> t[1:3] = ['x', 'y']
->>> print t
+>>> print(t)
 ['a', 'x', 'y', 'd', 'e', 'f']
 \end{verbatim}
 %
@@ -5500,7 +5445,7 @@ Python provides methods that operate on lists.  For example,
 \begin{verbatim}
 >>> t = ['a', 'b', 'c']
 >>> t.append('d')
->>> print t
+>>> print(t)
 ['a', 'b', 'c', 'd']
 \end{verbatim}
 %
@@ -5513,7 +5458,7 @@ the elements:
 >>> t1 = ['a', 'b', 'c']
 >>> t2 = ['d', 'e']
 >>> t1.extend(t2)
->>> print t1
+>>> print(t1)
 ['a', 'b', 'c', 'd', 'e']
 \end{verbatim}
 %
@@ -5526,7 +5471,7 @@ This example leaves {\tt t2} unmodified.
 \begin{verbatim}
 >>> t = ['d', 'c', 'e', 'b', 'a']
 >>> t.sort()
->>> print t
+>>> print(t)
 ['a', 'b', 'c', 'd', 'e']
 \end{verbatim}
 %
@@ -5553,9 +5498,9 @@ know the index of the element you want, you can use
 \begin{verbatim}
 >>> t = ['a', 'b', 'c']
 >>> x = t.pop(1)
->>> print t
+>>> print(t)
 ['a', 'c']
->>> print x
+>>> print(x)
 b
 \end{verbatim}
 %
@@ -5571,7 +5516,7 @@ operator:
 \begin{verbatim}
 >>> t = ['a', 'b', 'c']
 >>> del t[1]
->>> print t
+>>> print(t)
 ['a', 'c']
 \end{verbatim}
 %
@@ -5584,7 +5529,7 @@ can use {\tt remove}:
 \begin{verbatim}
 >>> t = ['a', 'b', 'c']
 >>> t.remove('b')
->>> print t
+>>> print(t)
 ['a', 'c']
 \end{verbatim}
 %
@@ -5598,7 +5543,7 @@ a slice index:
 \begin{verbatim}
 >>> t = ['a', 'b', 'c', 'd', 'e', 'f']
 >>> del t[1:5]
->>> print t
+>>> print(t)
 ['a', 'f']
 \end{verbatim}
 %
@@ -5636,7 +5581,7 @@ you can use {\tt list}:
 \begin{verbatim}
 >>> s = 'spam'
 >>> t = list(s)
->>> print t
+>>> print(t)
 ['s', 'p', 'a', 'm']
 \end{verbatim}
 %
@@ -5653,7 +5598,7 @@ method:
 \begin{verbatim}
 >>> s = 'pining for the fjords'
 >>> t = s.split()
->>> print t
+>>> print(t)
 ['pining', 'for', 'the', 'fjords']
 \end{verbatim}
 %
@@ -5818,7 +5763,7 @@ the other:
 
 \begin{verbatim}
 >>> b[0] = 17
->>> print a
+>>> print(a)
 [17, 2, 3]
 \end{verbatim}
 %
@@ -5862,7 +5807,7 @@ Here's how it is used:
 \begin{verbatim}
 >>> letters = ['a', 'b', 'c']
 >>> delete_head(letters)
->>> print letters
+>>> print(letters)
 ['b', 'c']
 \end{verbatim}
 %
@@ -5895,13 +5840,13 @@ example, the {\tt append} method modifies a list, but the
 \begin{verbatim}
 >>> t1 = [1, 2]
 >>> t2 = t1.append(3)
->>> print t1
+>>> print(t1)
 [1, 2, 3]
->>> print t2
+>>> print(t2)
 None
 
 >>> t3 = t1 + [4]
->>> print t3
+>>> print(t3)
 [1, 2, 3, 4]
 \end{verbatim}
 
@@ -5936,7 +5881,7 @@ Here's how it is used:
 \begin{verbatim}
 >>> letters = ['a', 'b', 'c']
 >>> rest = tail(letters)
->>> print rest
+>>> print(rest)
 ['b', 'c']
 \end{verbatim}
 
@@ -6260,7 +6205,7 @@ is with a {\tt while} loop:
 index = 0
 while index < len(fruit):
     letter = fruit[index]
-    print letter
+    print(letter)
     index = index + 1
 \end{verbatim}
 %
@@ -6282,7 +6227,7 @@ Another way to write a traversal is with a {\tt for} loop:
 
 \begin{verbatim}
 for char in fruit:
-    print char
+    print(char)
 \end{verbatim}
 %
 Each time through the loop, the next character in the string is assigned
@@ -6304,7 +6249,7 @@ prefixes = 'JKLMNOPQ'
 suffix = 'ack'
 
 for letter in prefixes:
-    print letter + suffix
+    print(letter + suffix)
 \end{verbatim}
 %
 The output is:
@@ -6341,7 +6286,7 @@ with a {\tt for} loop.  The syntax is the same as for strings:
 
 \begin{verbatim}
 for cheese in cheeses:
-    print cheese
+    print(cheese)
 \end{verbatim}
 %
 This works well if you only need to read the elements of the
@@ -6370,7 +6315,7 @@ A {\tt for} loop over an empty list never executes the body:
 
 \begin{verbatim}
 for x in []:
-    print 'This never happens.'
+    print('This never happens.')
 \end{verbatim}
 %
 Although a list can contain another list, the nested
@@ -6399,7 +6344,7 @@ count = 0
 for letter in word:
     if letter == 'a':
         count = count + 1
-print count
+print(count)
 \end{verbatim}
 %
 This program demonstrates another pattern of computation called a {\bf
@@ -6448,7 +6393,7 @@ letters from {\tt word1} that also appear in {\tt word2}:
 def in_both(word1, word2):
     for letter in word1:
         if letter in word2:
-            print letter
+            print(letter)
 \end{verbatim}
 %
 With well-chosen variable names,
@@ -6501,7 +6446,7 @@ for item in animals:
         count += 1
     elif item == 'done':
         break
-print count
+print(count)
 \end{verbatim}
 
 The loop now runs until it either consumes all elements of the list
@@ -6764,9 +6709,9 @@ For example, look at the following function:
 \begin{verbatim}
 def countdown(n):
     if n <= 0:
-        print 'Blastoff!'
+        print('Blastoff!')
     else:
-        print n
+        print(n)
         countdown(n-1)
 \end{verbatim}
 %
@@ -6827,7 +6772,7 @@ string {\tt n} times.
 def print_n(s, n):
     if n <= 0:
         return
-    print s
+    print(s)
     print_n(s, n-1)
 \end{verbatim}
 %
@@ -7202,10 +7147,10 @@ argument is positive:
 \begin{verbatim}
 def factorial (n):
     if not isinstance(n, int):
-        print 'Factorial is only defined for integers.'
+        print('Factorial is only defined for integers.')
         return None
     elif n < 0:
-        print 'Factorial is not defined for negative integers.'
+        print('Factorial is not defined for negative integers.')
         return None
     elif n == 0:
         return 1
@@ -7288,14 +7233,14 @@ print statements:
 \begin{verbatim}
 def factorial(n):
     space = ' ' * (4 * n)
-    print space, 'factorial', n
+    print(space, 'factorial', n)
     if n == 0:
-        print space, 'returning 1'
+        print(space, 'returning 1')
         return 1
     else:
         recurse = factorial(n-1)
         result = n * recurse
-        print space, 'returning', result
+        print(space, 'returning', result)
         return result
 \end{verbatim}
 %
@@ -7549,7 +7494,7 @@ should avoid using it as a variable name.
 
 \begin{verbatim}
 >>> eng2sp = dict()
->>> print eng2sp
+>>> print(eng2sp)
 {}
 \end{verbatim}
 
@@ -7568,7 +7513,7 @@ dictionary again, we see a key-value pair with a colon
 between the key and value:
 
 \begin{verbatim}
->>> print eng2sp
+>>> print(eng2sp)
 {'one': 'uno'}
 \end{verbatim}
 %
@@ -7582,7 +7527,7 @@ you can create a new dictionary with three items:
 But if you print {\tt eng2sp}, you might be surprised:
 
 \begin{verbatim}
->>> print eng2sp
+>>> print(eng2sp)
 {'one': 'uno', 'three': 'tres', 'two': 'dos'}
 \end{verbatim}
 %
@@ -7596,7 +7541,7 @@ the elements of a dictionary are never indexed with integer indices.
 Instead, you use the keys to look up the corresponding values:
 
 \begin{verbatim}
->>> print eng2sp['two']
+>>> print(eng2sp['two'])
 'dos'
 \end{verbatim}
 %
@@ -7608,7 +7553,7 @@ If the key isn't in the dictionary, you get an exception:
 \index{KeyError}
 
 \begin{verbatim}
->>> print eng2sp['four']
+>>> print(eng2sp['four'])
 KeyError: 'four'
 \end{verbatim}
 %
@@ -7744,7 +7689,7 @@ Here's how it works:
 
 \begin{verbatim}
 >>> h = histogram('brontosaurus')
->>> print h
+>>> print(h)
 {'a': 1, 'b': 1, 'o': 2, 'n': 1, 's': 2, 'r': 2, 'u': 2, 't': 1}
 \end{verbatim}
 %
@@ -7762,7 +7707,7 @@ the default value.  For example:
 
 \begin{verbatim}
 >>> h = histogram('a')
->>> print h
+>>> print(h)
 {'a': 1}
 >>> h.get('a', 0)
 1
@@ -7787,7 +7732,7 @@ prints each key and the corresponding value:
 \begin{verbatim}
 def print_hist(h):
     for c in h:
-        print c, h[c]
+        print(c, h[c])
 \end{verbatim}
 %
 Here's what the output looks like:
@@ -7867,7 +7812,7 @@ Here is an example of a successful reverse lookup:
 \begin{verbatim}
 >>> h = histogram('parrot')
 >>> k = reverse_lookup(h, 2)
->>> print k
+>>> print(k)
 r
 \end{verbatim}
 %
@@ -7948,10 +7893,10 @@ Here is an example:
 
 \begin{verbatim}
 >>> hist = histogram('parrot')
->>> print hist
+>>> print(hist)
 {'a': 1, 'p': 1, 'r': 2, 't': 1, 'o': 1}
 >>> inverse = invert_dict(hist)
->>> print inverse
+>>> print(inverse)
 {1: ['a', 'p', 't', 'o'], 2: ['r']}
 \end{verbatim}
 
@@ -8520,7 +8465,7 @@ comma:
 \begin{verbatim}
 >>> t1 = 'a',
 >>> type(t1)
-<type 'tuple'>
+<class 'tuple'>
 \end{verbatim}
 %
 A value in parentheses is not a tuple:
@@ -8528,7 +8473,7 @@ A value in parentheses is not a tuple:
 \begin{verbatim}
 >>> t2 = ('a')
 >>> type(t2)
-<type 'str'>
+<class 'str'>
 \end{verbatim}
 %
 Another way to create a tuple is the built-in function {\tt tuple}.
@@ -8538,7 +8483,7 @@ With no argument, it creates an empty tuple:
 
 \begin{verbatim}
 >>> t = tuple()
->>> print t
+>>> print(t)
 ()
 \end{verbatim}
 %
@@ -8547,7 +8492,7 @@ is a tuple with the elements of the sequence:
 
 \begin{verbatim}
 >>> t = tuple('lupins')
->>> print t
+>>> print(t)
 ('l', 'u', 'p', 'i', 'n', 's')
 \end{verbatim}
 %
@@ -8561,7 +8506,7 @@ indexes an element:
 
 \begin{verbatim}
 >>> t = ('a', 'b', 'c', 'd', 'e')
->>> print t[0]
+>>> print(t[0])
 'a'
 \end{verbatim}
 %
@@ -8572,7 +8517,7 @@ And the slice operator selects a range of elements.
 \index{slice!tuple}
 
 \begin{verbatim}
->>> print t[1:3]
+>>> print(t[1:3])
 ('b', 'c')
 \end{verbatim}
 %
@@ -8593,7 +8538,7 @@ one tuple with another:
 
 \begin{verbatim}
 >>> t = ('A',) + t[1:]
->>> print t
+>>> print(t)
 ('A', 'b', 'c', 'd', 'e')
 \end{verbatim}
 %
@@ -8653,9 +8598,9 @@ the first element is assigned to {\tt uname}, the second to
 {\tt domain}.
 
 \begin{verbatim}
->>> print uname
+>>> print(uname)
 monty
->>> print domain
+>>> print(domain)
 python.org
 \end{verbatim}
 %
@@ -8670,7 +8615,7 @@ Strictly speaking, a function can only return one value, but
 if the value is a tuple, the effect is the same as returning
 multiple values.  For example, if you want to divide two integers
 and compute the quotient and remainder, it is inefficient to
-compute {\tt x/y} and then {\tt x\%y}.  It is better to compute
+compute {\tt x//y} and then {\tt x\%y}.  It is better to compute
 them both at the same time.
 \index{divmod}
 
@@ -8680,7 +8625,7 @@ You can store the result as a tuple:
 
 \begin{verbatim}
 >>> t = divmod(7, 3)
->>> print t
+>>> print(t)
 (2, 1)
 \end{verbatim}
 %
@@ -8690,9 +8635,9 @@ Or use tuple assignment to store the elements separately:
 
 \begin{verbatim}
 >>> quot, rem = divmod(7, 3)
->>> print quot
+>>> print(quot)
 2
->>> print rem
+>>> print(rem)
 1
 \end{verbatim}
 %
@@ -8726,7 +8671,7 @@ takes any number of arguments and prints them:
 
 \begin{verbatim}
 def printall(*args):
-    print args
+    print(args)
 \end{verbatim}
 %
 The gather parameter can have any name you like, but {\tt args} is
@@ -8844,7 +8789,7 @@ tuples:
 \begin{verbatim}
 t = [('a', 0), ('b', 1), ('c', 2)]
 for letter, number in t:
-    print number, letter
+    print(number, letter)
 \end{verbatim}
 %
 Each time through the loop, Python selects the next tuple in
@@ -8881,7 +8826,7 @@ indices, you can use the built-in function {\tt enumerate}:
 
 \begin{verbatim}
 for index, element in enumerate('abc'):
-    print index, element
+    print(index, element)
 \end{verbatim}
 %
 The output of this loop is:
@@ -8908,7 +8853,7 @@ tuples, where each tuple is a key-value pair.
 \begin{verbatim}
 >>> d = {'a':0, 'b':1, 'c':2}
 >>> t = d.items()
->>> print t
+>>> print(t)
 [('a', 0), ('c', 2), ('b', 1)]
 \end{verbatim}
 %
@@ -8932,7 +8877,7 @@ to create a dictionary:
 
 \begin{verbatim}
 >>> d = dict(zip('abc', range(3)))
->>> print d
+>>> print(d)
 {'a': 0, 'c': 2, 'b': 1}
 \end{verbatim}
 %
@@ -8948,7 +8893,7 @@ get the idiom for traversing the keys and values of a dictionary:
 
 \begin{verbatim}
 for key, val in d.items():
-    print val, key
+    print(val, key)
 \end{verbatim}
 %
 The output of this loop is:
@@ -8979,7 +8924,7 @@ assignment to traverse this dictionary.
 
 \begin{verbatim}
 for last, first in directory:
-    print first, last, directory[last,first]
+    print(first, last, directory[last,first])
 \end{verbatim}
 %
 This loop traverses the keys in {\tt directory}, which are tuples.  It
@@ -9192,7 +9137,7 @@ Here's the result for a simple list:
 \begin{verbatim}
 >>> from structshape import structshape
 >>> t = [1,2,3]
->>> print structshape(t)
+>>> print(structshape(t))
 list of 3 int
 \end{verbatim}
 %
@@ -9201,7 +9146,7 @@ was easier not to deal with plurals.  Here's a list of lists:
 
 \begin{verbatim}
 >>> t2 = [[1,2], [3,4], [5,6]]
->>> print structshape(t2)
+>>> print(structshape(t2))
 list of 3 list of 2 int
 \end{verbatim}
 %
@@ -9210,7 +9155,7 @@ If the elements of the list are not the same type,
 
 \begin{verbatim}
 >>> t3 = [1, 2, 3, 4.0, '5', '6', [7], [8], 9]
->>> print structshape(t3)
+>>> print(structshape(t3))
 list of (3 int, float, 2 str, 2 list of int, int)
 \end{verbatim}
 %
@@ -9219,7 +9164,7 @@ Here's a list of tuples:
 \begin{verbatim}
 >>> s = 'abc'
 >>> lt = zip(t, s)
->>> print structshape(lt)
+>>> print(structshape(lt))
 list of 3 tuple of (int, str)
 \end{verbatim}
 %
@@ -9227,7 +9172,7 @@ And here's a dictionary with 3 items that map integers to strings.
 
 \begin{verbatim}
 >>> d = dict(lt) 
->>> print structshape(d)
+>>> print(structshape(d))
 dict of 3 int->str
 \end{verbatim}
 %
@@ -9464,7 +9409,7 @@ parameter:
 
 \begin{verbatim}
 >>> fout = open('output.txt', 'w')
->>> print fout
+>>> print(fout)
 <open file 'output.txt', mode 'w' at 0xb7eb2410>
 \end{verbatim}
 %
@@ -9616,7 +9561,7 @@ returns the name of the current directory:
 \begin{verbatim}
 >>> import os
 >>> cwd = os.getcwd()
->>> print cwd
+>>> print(cwd)
 /home/dinsdale
 \end{verbatim}
 %
@@ -9686,7 +9631,7 @@ def walk(dirname):
         path = os.path.join(dirname, name)
 
         if os.path.isfile(path):
-            print path
+            print(path)
         else:
             walk(path)
 \end{verbatim}
@@ -9754,10 +9699,10 @@ syntax is similar to an {\tt if} statement:
 try:    
     fin = open('bad_file')
     for line in fin:
-        print line
+        print(line)
     fin.close()
 except:
-    print 'Something went wrong.'
+    print('Something went wrong.')
 \end{verbatim}
 %
 Python starts by executing the {\tt try} clause.  If all goes
@@ -9824,7 +9769,7 @@ If you create a new item, {\tt anydbm} updates the database file.
 When you access one of the items, {\tt anydbm} reads the file:
 
 \begin{verbatim}
->>> print db['cleese.png']
+>>> print(db['cleese.png'])
 Photo of John Cleese.
 \end{verbatim}
 %
@@ -9833,7 +9778,7 @@ the old value:
 
 \begin{verbatim}
 >>> db['cleese.png'] = 'Photo of John Cleese doing a silly walk.'
->>> print db['cleese.png']
+>>> print(db['cleese.png'])
 Photo of John Cleese doing a silly walk.
 \end{verbatim}
 %
@@ -9844,7 +9789,7 @@ statement.
 
 \begin{verbatim}
 for key in db:
-    print key
+    print(key)
 \end{verbatim}
 %
 As with other files, you should close the database when you are
@@ -9889,7 +9834,7 @@ easy for {\tt pickle} to interpret.  {\tt pickle.loads}
 >>> t1 = [1, 2, 3]
 >>> s = pickle.dumps(t1)
 >>> t2 = pickle.loads(s)
->>> print t2
+>>> print(t2)
 [1, 2, 3]
 \end{verbatim}
 %
@@ -9985,7 +9930,7 @@ When you are done, you close the pipe like a file:
 
 \begin{verbatim}
 >>> stat = fp.close()
->>> print stat
+>>> print(stat)
 None
 \end{verbatim}
 %
@@ -10010,9 +9955,9 @@ You can use a pipe to run {\tt md5sum} from Python and get the result:
 >>> fp = os.popen(cmd)
 >>> res = fp.read()
 >>> stat = fp.close()
->>> print res
+>>> print(res)
 1e0033f0ed0656636de0d75144ba32e0  book.tex
->>> print stat
+>>> print(stat)
 None
 \end{verbatim}
 
@@ -10069,7 +10014,7 @@ def linecount(filename):
         count += 1
     return count
 
-print linecount('wc.py')
+print(linecount('wc.py'))
 \end{verbatim}
 %
 If you run this program, it reads itself and prints the number
@@ -10086,7 +10031,7 @@ Now you have a module object {\tt wc}:
 \index{object!module}
 
 \begin{verbatim}
->>> print wc
+>>> print(wc)
 <module 'wc' from 'wc.py'>
 \end{verbatim}
 %
@@ -10111,7 +10056,7 @@ use the following idiom:
 
 \begin{verbatim}
 if __name__ == '__main__':
-    print linecount('wc.py')
+    print(linecount('wc.py'))
 \end{verbatim}
 %
 \verb"__name__" is a built-in variable that is set when the
@@ -10152,7 +10097,7 @@ tabs and newlines are normally invisible:
 
 \begin{verbatim}
 >>> s = '1 2\t 3\n 4'
->>> print s
+>>> print(s)
 1 2	 3
  4
 \end{verbatim}
@@ -10166,7 +10111,7 @@ strings, it represents whitespace
 characters with backslash sequences:
 
 \begin{verbatim}
->>> print repr(s)
+>>> print(repr(s))
 '1 2\t 3\n 4'
 \end{verbatim}
 
@@ -10254,7 +10199,7 @@ import urllib
 
 conn = urllib.urlopen('http://thinkpython.com/secret.html')
 for line in conn:
-    print line.strip()
+    print(line.strip())
 \end{verbatim}
 
 Run this code and follow the instructions you see there.
@@ -10402,7 +10347,7 @@ but we will get back to that later.
 Defining a class named {\tt Point} creates a class object.
 
 \begin{verbatim}
->>> print Point
+>>> print(Point)
 <class '__main__.Point'>
 \end{verbatim}
 %
@@ -10416,7 +10361,7 @@ Point, you call {\tt Point} as if it were a function.
 
 \begin{verbatim}
 >>> blank = Point()
->>> print blank
+>>> print(blank)
 <__main__.Point instance at 0xb7e9d3ac>
 \end{verbatim}
 %
@@ -10478,10 +10423,10 @@ floating-point number.
 You can read the value of an attribute using the same syntax:
 
 \begin{verbatim}
->>> print blank.y
+>>> print(blank.y)
 4.0
 >>> x = blank.x
->>> print x
+>>> print(x)
 3.0
 \end{verbatim}
 %
@@ -10493,10 +10438,10 @@ the variable {\tt x} and the attribute {\tt x}.
 You can use dot notation as part of any expression.  For example:
 
 \begin{verbatim}
->>> print '(%g, %g)' % (blank.x, blank.y)
+>>> print('(%g, %g)' % (blank.x, blank.y))
 (3.0, 4.0)
 >>> distance = math.sqrt(blank.x**2 + blank.y**2)
->>> print distance
+>>> print(distance)
 5.0
 \end{verbatim}
 %
@@ -10506,7 +10451,7 @@ For example:
 
 \begin{verbatim}
 def print_point(p):
-    print '(%g, %g)' % (p.x, p.y)
+    print('(%g, %g)' % (p.x, p.y))
 \end{verbatim}
 %
 \verb"print_point" takes a point as an argument and displays it in
@@ -10662,14 +10607,14 @@ def grow_rectangle(rect, dwidth, dheight):
 Here is an example that demonstrates the effect:
 
 \begin{verbatim}
->>> print box.width
+>>> print(box.width)
 100.0
->>> print box.height
+>>> print(box.height)
 200.0
 >>> grow_rectangle(box, 50, 100)
->>> print box.width
+>>> print(box.width)
 150.0
->>> print box.height
+>>> print(box.height)
 300.0
 \end{verbatim}
 %
@@ -10814,7 +10759,7 @@ that doesn't exist, you get an {\tt AttributeError}:
 
 \begin{verbatim}
 >>> p = Point()
->>> print p.z
+>>> print(p.z)
 AttributeError: Point instance has no attribute 'z'
 \end{verbatim}
 %
@@ -10824,7 +10769,7 @@ If you are not sure what type an object is, you can ask:
 
 \begin{verbatim}
 >>> type(p)
-<type '__main__.Point'>
+<class '__main__.Point'>
 \end{verbatim}
 %
 If you are not sure whether an object has a particular attribute,
@@ -11565,7 +11510,7 @@ class Time(object):
     """Represents the time of day."""
 
 def print_time(time):
-    print '%.2d:%.2d:%.2d' % (time.hour, time.minute, time.second)
+    print('%.2d:%.2d:%.2d' % (time.hour, time.minute, time.second))
 \end{verbatim}
 %
 To call this function, you have to pass a {\tt Time} object as an
@@ -11588,7 +11533,7 @@ the change in indentation.
 \begin{verbatim}
 class Time(object):
     def print_time(time):
-        print '%.2d:%.2d:%.2d' % (time.hour, time.minute, time.second)
+        print('%.2d:%.2d:%.2d' % (time.hour, time.minute, time.second))
 \end{verbatim}
 %
 Now there are two ways to call \verb"print_time".  The first
@@ -11634,7 +11579,7 @@ called {\tt self}, so it would be more common to write
 \begin{verbatim}
 class Time(object):
     def print_time(self):
-        print '%.2d:%.2d:%.2d' % (self.hour, self.minute, self.second)
+        print('%.2d:%.2d:%.2d' % (self.hour, self.minute, self.second))
 \end{verbatim}
 %
 The reason for this convention is an implicit metaphor:
@@ -11840,7 +11785,7 @@ When you {\tt print} an object, Python invokes the {\tt str} method:
 
 \begin{verbatim}
 >>> time = Time(9, 45)
->>> print time
+>>> print(time)
 09:45:00
 \end{verbatim}
 %
@@ -11882,7 +11827,7 @@ And here is how you could use it:
 \begin{verbatim}
 >>> start = Time(9, 45)
 >>> duration = Time(1, 35)
->>> print start + duration
+>>> print(start + duration)
 11:20:00
 \end{verbatim}
 %
@@ -11951,9 +11896,9 @@ types:
 \begin{verbatim}
 >>> start = Time(9, 45)
 >>> duration = Time(1, 35)
->>> print start + duration
+>>> print(start + duration)
 11:20:00
->>> print start + 1337
+>>> print(start + 1337)
 10:07:17
 \end{verbatim}
 %
@@ -11962,7 +11907,7 @@ If the integer is the first operand, you get
 \index{commutativity}
 
 \begin{verbatim}
->>> print 1337 + start
+>>> print(1337 + start)
 TypeError: unsupported operand type(s) for +: 'int' and 'instance'
 \end{verbatim}
 %
@@ -11985,7 +11930,7 @@ the {\tt +} operator.  Here's the definition:
 And here's how it's used:
 
 \begin{verbatim}
->>> print 1337 + start
+>>> print(1337 + start)
 10:07:17
 \end{verbatim}
 %
@@ -12058,7 +12003,7 @@ with {\tt sum}:
 >>> t2 = Time(7, 41)
 >>> t3 = Time(7, 37)
 >>> total = sum([t1, t2, t3])
->>> print total
+>>> print(total)
 23:01:00
 \end{verbatim}
 %
@@ -12094,7 +12039,7 @@ attribute names (as strings) and values:
 
 \begin{verbatim}
 >>> p = Point(3, 4)
->>> print p.__dict__
+>>> print(p.__dict__)
 {'y': 4, 'x': 3}
 \end{verbatim}
 %
@@ -12104,7 +12049,7 @@ function handy:
 \begin{verbatim}
 def print_attributes(obj):
     for attr in obj.__dict__:
-        print attr, getattr(obj, attr)
+        print(attr, getattr(obj, attr))
 \end{verbatim}
 %
 \verb"print_attributes" traverses the items in the object's dictionary
@@ -12505,7 +12450,7 @@ With the methods we have so far, we can create and print cards:
 
 \begin{verbatim}
 >>> card1 = Card(2, 11)
->>> print card1
+>>> print(card1)
 Jack of Hearts
 \end{verbatim}
 
@@ -12692,7 +12637,7 @@ are separated by newlines.  Here's what the result looks like:
 
 \begin{verbatim}
 >>> deck = Deck()
->>> print deck
+>>> print(deck)
 Ace of Clubs
 2 of Clubs
 3 of Clubs
@@ -12847,9 +12792,9 @@ So when you create a Hand, Python invokes this init method:
 
 \begin{verbatim}
 >>> hand = Hand('new hand')
->>> print hand.cards
+>>> print(hand.cards)
 []
->>> print hand.label
+>>> print(hand.label)
 new hand
 \end{verbatim}
 %
@@ -12860,7 +12805,7 @@ But the other methods are inherited from {\tt Deck}, so we can use
 >>> deck = Deck()
 >>> card = deck.pop_card()
 >>> hand.add_card(card)
->>> print hand
+>>> print(hand)
 King of Spades
 \end{verbatim}
 %
@@ -13022,7 +12967,7 @@ Here's an example:
 
 \begin{verbatim}
 >>> hand = Hand()
->>> print find_defining_class(hand, 'shuffle')
+>>> print(find_defining_class(hand, 'shuffle'))
 <class 'Card.Deck'>
 \end{verbatim}
 %
@@ -13414,7 +13359,7 @@ from swampy.TurtleWorld import *
 
 world = TurtleWorld()
 bob = Turtle()
-print bob
+print(bob)
 
 wait_for_user()
 \end{verbatim}
@@ -13499,7 +13444,7 @@ Add this example to {\tt mypolygon.py} and run it again:
 
 \begin{verbatim}
 for i in range(4):
-    print 'Hello!'
+    print('Hello!')
 \end{verbatim}
 %
 You should see something like this:
@@ -14115,7 +14060,7 @@ and returns a {\bf file object} you can use to read the file.
 
 \begin{verbatim}
 >>> fin = open('words.txt')
->>> print fin
+>>> print(fin)
 <open file 'words.txt', mode 'r' at 0xb7f4b380>
 \end{verbatim}
 %
@@ -14158,7 +14103,7 @@ we can get rid of it with the string method {\tt strip}:
 \begin{verbatim}
 >>> line = fin.readline()
 >>> word = line.strip()
->>> print word
+>>> print(word)
 aahed
 \end{verbatim}
 %
@@ -14172,7 +14117,7 @@ per line:
 fin = open('words.txt')
 for line in fin:
     word = line.strip()
-    print word
+    print(word)
 \end{verbatim}
 %
 
@@ -14646,7 +14591,7 @@ if we can make Python swear:
 
 \begin{verbatim}
 >>> import string
->>> print string.punctuation
+>>> print(string.punctuation)
 !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 \end{verbatim}
 %
@@ -14742,7 +14687,7 @@ import random
 
 for i in range(10):
     x = random.random()
-    print x
+    print(x)
 \end{verbatim}
 %
 The function {\tt randint} takes parameters {\tt low} and
@@ -14786,7 +14731,7 @@ in proportion to frequency.  For example, for this histogram:
 \begin{verbatim}
 >>> t = ['a', 'a', 'b']
 >>> hist = histogram(t)
->>> print hist
+>>> print(hist)
 {'a': 2, 'b': 1}
 \end{verbatim}
 %
@@ -14869,8 +14814,8 @@ def different_words(hist):
 Here is some code to print the results:
 
 \begin{verbatim}
-print 'Total number of words:', total_words(hist)
-print 'Number of different words:', different_words(hist)
+print('Total number of words:', total_words(hist))
+print('Number of different words:', different_words(hist))
 \end{verbatim}
 %
 And the results:
@@ -14903,9 +14848,9 @@ Here is a loop that prints the ten most common words:
 
 \begin{verbatim}
 t = most_common(hist)
-print 'The most common words are:'
+print('The most common words are:')
 for freq, word in t[0:10]:
-    print word, '\t', freq
+    print(word, '\t', freq)
 \end{verbatim}
 %
 And here are the results from {\em Emma}:
@@ -14937,9 +14882,9 @@ prints the most common words in a histogram
 \begin{verbatim}
 def print_most_common(hist, num=10):
     t = most_common(hist)
-    print 'The most common words are:'
+    print('The most common words are:')
     for freq, word in t[:num]:
-        print word, '\t', freq
+        print(word, '\t', freq)
 \end{verbatim}
 
 The first parameter is required; the second is optional.
@@ -15002,7 +14947,7 @@ diff = subtract(hist, words)
 
 print "The words in the book that aren't in the word list are:"
 for word in diff.keys():
-    print word,
+    print(word)
 \end{verbatim}
 %
 Here are some of the results from {\em Emma}:
@@ -16046,7 +15991,7 @@ Here is what \verb"set_color" might look like:
 \begin{verbatim}
 def set_color(color):
     mb.config(text=color)
-    print color
+    print(color)
 \end{verbatim}
 %
 When the user selects a menu item and \verb"set_color" is called,
@@ -16232,7 +16177,7 @@ to call the function rather than passing a reference to it:
 
 \begin{verbatim}
 def the_callback():
-    print 'Called.'
+    print('Called.')
 
 g.bu(text='This is wrong!', command=the_callback())
 \end{verbatim}
@@ -16744,9 +16689,9 @@ while x > 0 and y < 0 :
     # do something to x
     # do something to y
 
-    print "x: ", x
-    print "y: ", y
-    print "condition: ", (x > 0 and y < 0)
+    print("x: ", x)
+    print("y: ", y)
+    print("condition: ", (x > 0 and y < 0))
 \end{verbatim}
 %
 Now when you run the program, you will see three lines of output
@@ -17976,10 +17921,10 @@ from swampy.Lumpy import Lumpy
 
 def countdown(n):
     if n <= 0:
-        print 'Blastoff!'
+        print('Blastoff!')
         lumpy.object_diagram()
     else:
-        print n
+        print(n)
         countdown(n-1)
 
 lumpy = Lumpy()
